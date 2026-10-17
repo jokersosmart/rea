@@ -1,0 +1,163 @@
+/*
+ * Design tokens learned from https://www.gachago.net/ (observed 2026-10-17).
+ * Style study only. Values mirror tokens.json; see README.md for which values
+ * were verified from captured output and which are inferred.
+ */
+:root {
+  /* Color: brand */
+  --gg-coffee-600: #725349;
+  --gg-coffee-700: #5e443b;
+  --gg-red-400: #e05a47;
+  --gg-red-hover: #d65d4b;
+  --gg-yellow-200: #f2c94c;
+  --gg-orange-300: #f6b340;
+  --gg-green-300: #5fb376;
+  --gg-blue-400: #4d9bea;
+
+  /* Color: surfaces and text */
+  --gg-cream-50: #f5f0e8;
+  --gg-cream-alt: #f6f3eb;
+  --gg-paper: #fffdf5;
+  --gg-card: #ffffff;
+  --gg-card-media: #f3e1b0;
+  --gg-pill: #ebe2d1;
+  --gg-pill-hover: #dfd4c3;
+  --gg-divider-dots: #e1d4c2;
+  --gg-muted-text: #9a867b;
+  --gg-ink-dark: #312522;
+
+  /* Color: semantic aliases */
+  --gg-color-bg: var(--gg-cream-50);
+  --gg-color-text: var(--gg-coffee-600);
+  --gg-color-text-secondary: color-mix(
+    in srgb,
+    var(--gg-coffee-600) 80%,
+    transparent
+  );
+  --gg-color-primary: var(--gg-red-400);
+  --gg-color-brand: var(--gg-coffee-600);
+  --gg-color-brand-hover: var(--gg-coffee-700);
+
+  /* Typography */
+  --gg-font-base: "Chiron GoRound TC", sans-serif;
+  --gg-font-display-latin: "Bungee", sans-serif;
+  --gg-font-weight-base: 900;
+  --gg-text-sm: 0.875rem;
+  --gg-text-base: 1rem;
+  --gg-text-lg: 1.125rem;
+  --gg-text-xl: 1.25rem;
+  --gg-text-2xl: 1.5rem;
+  --gg-text-heading-fluid: clamp(32px, 5vw, 36px);
+
+  /* Spacing and layout */
+  --gg-space: 0.25rem;
+  --gg-gap-grid: 0.75rem;
+  --gg-gap-grid-wide: 1rem;
+  --gg-content-max: 1250px;
+  --gg-intro-max: 800px;
+
+  /* Shape */
+  --gg-radius-card: 20px;
+  --gg-radius-pill: 9999px;
+  --gg-border-card: 7px solid var(--gg-coffee-600);
+  --gg-shadow-card: 0 4px 0 #72534935;
+  --gg-shadow-card-pressed: 0 0 0 #72534950;
+
+  /* Motion */
+  --gg-duration-fast: 150ms;
+  --gg-duration-card: 300ms;
+  --gg-duration-enter: 400ms;
+  --gg-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Example primitives (our own markup, inspired by the observed patterns). */
+.gg-page {
+  background: var(--gg-color-bg);
+  color: var(--gg-color-text);
+  font-family: var(--gg-font-base);
+  font-weight: var(--gg-font-weight-base);
+}
+
+.gg-pill {
+  border-radius: var(--gg-radius-pill);
+  background: var(--gg-pill);
+  color: var(--gg-color-brand);
+  height: 2.5rem;
+  min-width: 5rem;
+  padding: 0.5rem 1rem;
+  font-size: var(--gg-text-sm);
+  transition: background-color var(--gg-duration-fast) var(--gg-ease);
+}
+.gg-pill:hover {
+  background: var(--gg-pill-hover);
+}
+.gg-pill[aria-pressed="true"] {
+  background: var(--gg-color-brand);
+  color: #fff;
+}
+
+.gg-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--gg-border-card);
+  border-radius: var(--gg-radius-card);
+  background: var(--gg-card);
+  box-shadow: var(--gg-shadow-card);
+  transition: all var(--gg-duration-card) var(--gg-ease);
+}
+.gg-card__media {
+  background: var(--gg-card-media);
+}
+@media (hover: hover) {
+  .gg-card:hover {
+    box-shadow: var(--gg-shadow-card-pressed);
+    transform: translateY(4px);
+  }
+}
+@media (min-width: 800px) {
+  .gg-card {
+    flex-direction: row;
+    height: 140px;
+  }
+  .gg-card__media {
+    width: 160px;
+    flex: none;
+  }
+}
+
+.gg-grid {
+  display: grid;
+  gap: var(--gg-gap-grid);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+}
+@media (min-width: 800px) {
+  .gg-grid {
+    gap: var(--gg-gap-grid-wide);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1180px) {
+  .gg-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@keyframes gg-rise-fade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.gg-enter {
+  animation: gg-rise-fade var(--gg-duration-enter) ease-out backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gg-enter {
+    animation: none;
+  }
+}
